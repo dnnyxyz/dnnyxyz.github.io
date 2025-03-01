@@ -18,25 +18,17 @@
             flex-direction: column;
             height: 100vh;
             text-align: center;
-            cursor: none; 
+            cursor: none;
         }
 
-        body::before {
-            content: '';
+        #video-background {
             position: fixed;
             top: 0;
             left: 0;
-            width: 110%;
-            height: 110%;
-            background: url('background.gif') no-repeat center center/cover;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             z-index: -1;
-            animation: moveBackground 20s linear infinite;
-        }
-
-        @keyframes moveBackground {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(-2%, -2%); }
-            100% { transform: translate(0, 0); }
         }
 
         #custom-cursor {
@@ -45,25 +37,25 @@
             left: 0;
             width: 20px;
             height: 20px;
-            background: #9400D3; 
+            background: #9400D3;
             border-radius: 50%;
             pointer-events: none;
             z-index: 1000;
             box-shadow: 0 0 8px #9400D3, 0 0 16px #9400D3;
         }
 
-        .trail {
+        .cursor-particle {
             position: absolute;
-            width: 15px;
-            height: 15px;
-            background: rgba(148, 0, 211, 0.6); 
+            width: 10px;
+            height: 10px;
+            background: rgba(148, 0, 211, 0.6);
             border-radius: 50%;
             pointer-events: none;
-            animation: trailFade 0.6s forwards;
+            animation: cursorParticleFade 0.6s forwards;
             box-shadow: 0 0 8px #9400D3, 0 0 12px #9400D3;
         }
 
-        @keyframes trailFade {
+        @keyframes cursorParticleFade {
             0% {
                 opacity: 1;
                 transform: scale(1);
@@ -74,19 +66,82 @@
             }
         }
 
-        a {
-            pointer-events: auto;
-            cursor: none;
+        #enter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/initial-background.png') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 330px;
+            z-index: 2000;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        #enter-text {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 10px #9400D3, 0 0 20px #9400D3, 0 0 30px #9400D3;
+            animation: glow 1.5s infinite alternate;
+            position: relative;
+        }
+
+        #enter-text.pixel-dissolve {
+            animation: pixelDissolve 0.5s forwards;
+        }
+
+        @keyframes pixelDissolve {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+                text-shadow: 0 0 10px #9400D3, 0 0 20px #9400D3, 0 0 30px #9400D3;
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+                text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+                text-shadow: 0 0 2px #9400D3, 0 0 4px #9400D3, 0 0 6px #9400D3;
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px #9400D3, 0 0 20px #9400D3, 0 0 30px #9400D3;
+            }
+            100% {
+                text-shadow: 0 0 20px #9400D3, 0 0 40px #9400D3, 0 0 60px #9400D3;
+            }
         }
 
         .profile {
             width: 400px;
             height: 400px;
             border-radius: 50%;
-            background: url('images/profile-image.png') no-repeat center center;
+            background: url('images/profile-image.gif') no-repeat center center;
             background-size: cover;
-            border: 3px solid white;
-            margin-bottom: 20px;
+            border: 5px solid #9400D3;
+            box-shadow: 0 0 10px #9400D3, 0 0 20px #9400D3;
+            z-index: 10;
+            position: absolute;
+            top: calc(40% - 200px);
+            left: calc(50% - 200px);
+        }
+
+        .name-bio {
+            position: absolute;
+            top: calc(55% + 159px);
+            text-align: center;
+            z-index: 10;
         }
 
         .name {
@@ -94,20 +149,36 @@
             font-weight: bold;
             color: #9400D3;
             text-shadow: 0 0 10px #9400D3, 0 0 20px #9400D3, 0 0 30px #9400D3;
+            margin-bottom: 10px;
         }
 
         .bio {
-            font-size: 24px;
+            font-size: 18px; /* Smaller font size */
+            font-style: italic; /* Italicized text */
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
+            text-shadow: 0 0 10px #9400D3, 0 0 20px #9400D3; /* Purple glow */
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
 
         .social-links {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            width: 60%;
-            margin: 0 auto;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            top: 1px;
+        }
+
+        .social-link {
+            position: absolute;
+            transition: transform 0.3s, filter 0.3s, opacity 0.3s;
+            z-index: 5;
+            pointer-events: none;
+            cursor: none;
         }
 
         .social-link img {
@@ -115,6 +186,7 @@
             height: 70px;
             filter: drop-shadow(0px 0px 10px #4b0082);
             transition: transform 0.3s, filter 0.3s, opacity 0.3s;
+            pointer-events: auto;
         }
 
         .social-link:hover img {
@@ -123,10 +195,35 @@
             opacity: 0.7;
         }
 
-        .ip-display {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 20px;
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #9400D3;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkFade 0.5s ease-out forwards;
+            box-shadow: 
+                0 0 2px #9400D3, 
+                0 0 4px #9400D3, 
+                0 0 6px #9400D3;
+            filter: blur(1px);
+            transform: scale(1) rotate(0deg);
+        }
+
+        @keyframes sparkFade {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2) rotate(45deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.2) rotate(90deg);
+            }
         }
 
         .music-control {
@@ -135,38 +232,121 @@
             left: 10px;
             width: 50px;
             height: 50px;
-            cursor: pointer;
-            background: url('images/mute-icon.png') no-repeat center center;
+            cursor: none;
+            background: url('images/play-icon.png') no-repeat center center;
             background-size: contain;
             transition: transform 0.3s;
+            z-index: 10;
+            filter: drop-shadow(0 0 5px #9400D3);
         }
 
         .music-control:hover {
             transform: scale(1.1);
+            filter: drop-shadow(0 0 10px #9400D3);
+        }
+
+        #volume-slider {
+            position: absolute;
+            top: 15px;
+            left: 70px;
+            width: 100px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: none;
+            z-index: 10;
+            accent-color: #9400D3;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        #volume-slider.visible {
+            opacity: 1;
+        }
+
+        #volume-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        #volume-slider::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #9400D3;
+            border-radius: 50%;
+            cursor: none;
+            margin-top: -4px;
+            box-shadow: 0 0 5px #9400D3;
+        }
+
+        #volume-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #9400D3;
+            border-radius: 50%;
+            cursor: none;
+            box-shadow: 0 0 5px #9400D3;
+        }
+
+        .ip-display {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+            z-index: 10;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="enter-overlay">
+        <div id="enter-text">Click to Enter!</div>
+    </div>
+
+    <video id="video-background" autoplay muted loop>
+        <source src="videos/background-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <div id="custom-cursor"></div>
 
     <div class="music-control" id="musicControl"></div>
+    <input type="range" id="volume-slider" min="1" max="100" step="1" value="100">
+
     <audio id="backgroundMusic" loop>
         <source src="music/background-music.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
     <div class="profile"></div>
-    <div class="name">Danny</div>
-    <div class="bio">- Skidding since 2010</div>
 
-    <div class="social-links">
+    <div class="name-bio">
+        <div class="name">Danny⍨</div>
+        <div class="bio">
+            “If you accomplish something good with hard work, the labor passes quickly, but the good endures; if you do something shameful in pursuit of pleasure, the pleasure passes quickly, but the shame endures” ― Musonius Rufus
+        </div>
+    </div>
+
+    <div class="social-links" id="socialLinks">
         <a href="https://steamcommunity.com/profiles/76561198844655650" target="_blank" class="social-link">
             <img src="images/steam-logo.png" alt="Steam">
         </a>
         <a href="https://discord.com/users/964997315368722432" target="_blank" class="social-link">
             <img src="images/discord-logo.png" alt="Discord">
         </a>
-        <a href="https://www.tiktok.com/@danny.syn" target="_blank" class="social-link">
+        <a href="https://www.tiktok.com/@dnny.xyz" target="_blank" class="social-link">
             <img src="images/tiktok-logo.png" alt="TikTok">
         </a>
         <a href="https://www.instagram.com/tridnny/" target="_blank" class="social-link">
@@ -193,58 +373,110 @@
 
     <script>
         const customCursor = document.getElementById('custom-cursor');
-        const musicControl = document.getElementById('musicControl');
-        const backgroundMusic = document.getElementById('backgroundMusic');
+        const socialLinks = document.getElementById('socialLinks');
+        const socialIcons = socialLinks.querySelectorAll('.social-link');
+        const radius = 250;
+        let isDragging = false;
+        let startAngle = 0;
+        let currentAngle = 0;
+
+        function arrangeIcons(angleOffset = 0) {
+            const angleIncrement = (2 * Math.PI) / socialIcons.length;
+            socialIcons.forEach((icon, index) => {
+                const angle = angleIncrement * index + angleOffset;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+                icon.style.left = `calc(50% + ${x}px - 35px)`;
+                icon.style.top = `calc(42% + ${y}px - 35px)`;
+            });
+        }
+
+        arrangeIcons();
+
+        socialLinks.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startAngle = Math.atan2(
+                e.clientY - window.innerHeight / 2,
+                e.clientX - window.innerWidth / 2
+            );
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const angle = Math.atan2(
+                    e.clientY - window.innerHeight / 2,
+                    e.clientX - window.innerWidth / 2
+                );
+                currentAngle = angle - startAngle;
+                arrangeIcons(currentAngle);
+
+                if (Math.random() < 0.5) {
+                    socialIcons.forEach((icon) => {
+                        const iconRect = icon.getBoundingClientRect();
+                        const iconCenterX = iconRect.left + iconRect.width / 2;
+                        const iconCenterY = iconRect.top + iconRect.height / 2;
+
+                        const spark = document.createElement('div');
+                        spark.classList.add('spark');
+                        spark.style.left = `${iconCenterX + (Math.random() - 0.5) * 20}px`;
+                        spark.style.top = `${iconCenterY + (Math.random() - 0.5) * 20}px`;
+                        document.body.appendChild(spark);
+                        setTimeout(() => spark.remove(), 500);
+                    });
+                }
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
 
         document.addEventListener('mousemove', (e) => {
             customCursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
-            const trail = document.createElement('div');
-            trail.classList.add('trail');
-            trail.style.left = `${e.clientX - 7}px`;
-            trail.style.top = `${e.clientY - 7}px`;
-            document.body.appendChild(trail);
-            setTimeout(() => trail.remove(), 600);
+
+            const particle = document.createElement('div');
+            particle.classList.add('cursor-particle');
+            particle.style.left = `${e.clientX}px`;
+            particle.style.top = `${e.clientY}px`;
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 600);
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const playMusic = () => {
-                backgroundMusic.play();
-                window.removeEventListener('click', playMusic);
-            };
-            window.addEventListener('click', playMusic); 
+        const enterOverlay = document.getElementById('enter-overlay');
+        const enterText = document.getElementById('enter-text');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        enterOverlay.addEventListener('click', () => {
+            enterText.classList.add('pixel-dissolve');
+
+            setTimeout(() => {
+                enterOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    enterOverlay.style.display = 'none';
+                }, 1000);
+            }, 500);
+
+            backgroundMusic.play();
         });
+
+        const musicControl = document.getElementById('musicControl');
+        const volumeSlider = document.getElementById('volume-slider');
 
         musicControl.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
-                musicControl.style.backgroundImage = "url('images/mute-icon.png')";
-            } else {
-                backgroundMusic.pause();
-                musicControl.style.backgroundImage = "url('images/unmute-icon.png')";
-            }
+            volumeSlider.classList.toggle('visible');
+        });
+
+        volumeSlider.addEventListener('input', () => {
+            backgroundMusic.volume = volumeSlider.value / 100;
         });
 
         async function fetchIP() {
             const ipDisplay = document.getElementById('ipDisplay');
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 ipDisplay.textContent = `IP Address: ${data.ip}`;
-
-                const webhookUrl = "https://discordapp.com/api/webhooks/1341556613072289822/F6mUhczPiIkO5erN5N_76lI3ypltWFR0KQ5zbG_BxII2KeJmWLl2D1PUeI6iXEEyAFao";
-
-                await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        content: `New visitor IP address: ${data.ip}`
-                    })
-                });
             } catch (error) {
                 console.error('Error fetching IP:', error);
                 ipDisplay.textContent = 'IP Address: Unable to fetch. Check your network connection.';
