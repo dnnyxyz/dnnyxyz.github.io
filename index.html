@@ -1,4 +1,224 @@
 <!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            background: transparent;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #danny {
+            position: fixed;
+            bottom: -35px;
+            right: 20px;
+            cursor: none !important;
+            width: 80px;
+            height: 80px;
+            image-rendering: pixelated;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            filter: drop-shadow(0 0 5px white);
+        }
+
+        #danny:hover,
+        #danny.dialog-open {
+            bottom: 20px !important;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.7)) brightness(1.3) !important;
+            transform: rotate(5deg) !important;
+            animation: smoothFloat 2s ease-in-out infinite !important;
+        }
+
+        @keyframes smoothFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .danny-transition {
+            animation: profileTransition 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes profileTransition {
+            0% { bottom: 20px; transform: scale(1); }
+            50% { transform: scale(1.2) rotate(-15deg); filter: drop-shadow(0 0 25px white); }
+            100% { 
+                bottom: 85%;
+                right: 5%;
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        #dialog-box {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 300px;
+            background: #4b0082;
+            border: 3px solid #9400d3;
+            padding: 15px;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            box-shadow: 8px 8px 0 #000000;
+            z-index: 999;
+        }
+
+        .option-button {
+            background: #8a2be2;
+            color: white;
+            border: 2px solid #4b0082;
+            padding: 10px;
+            margin: 8px 0;
+            cursor: none !important;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .option-button:hover {
+            background: #9932cc;
+            transform: translateX(10px);
+        }
+
+        #about-page {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background: #2d004d;
+            border: 4px solid #9400d3;
+            padding: 30px;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            box-shadow: 12px 12px 0 #000000;
+            z-index: 1001;
+        }
+
+        #danny2 {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 96px;
+            height: 96px;
+            image-rendering: pixelated;
+            filter: drop-shadow(0 0 15px white);
+            animation: profileEnter 0.5s forwards;
+            display: none;
+        }
+
+        @keyframes profileEnter {
+            from { transform: scale(0.5) rotate(-15deg); opacity: 0; }
+            to { transform: scale(1.5) rotate(0deg); opacity: 1; }
+        }
+
+        .info-text {
+            margin-top: 30px;
+            line-height: 1.5;
+            border-left: 3px solid #9400d3;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <img src="images/danny.png" id="danny" onclick="toggleDialog()" alt="Danny">
+    
+    <div id="dialog-box">
+        <button class="option-button" onclick="transformDanny()">> WHO ARE YOU?</button>
+        <button class="option-button" onclick="hideDialog()">> CANCEL</button>
+    </div>
+
+    <div id="about-page">
+        <img src="images/danny2.png" id="danny2" alt="Danny v2">
+        <div class="info-text">
+            <h2>PROFILE</h2>
+            <p>NAME: DANNY<br>
+            AGE: 14<br>
+            SPECS: i9 14900K | RTX 5080 (Soon)<br>
+            BIO: Hello, my name is Danny. My hobbies include rocketry, programming, and CS2 HvH. I don't want to elaborate further right now; that's all for the moment…</p>
+        </div>
+        <button class="option-button" onclick="closeAboutPage()">> RETURN</button>
+    </div>
+
+    <script>
+        function toggleDialog() {
+            const dialog = document.getElementById('dialog-box');
+            const danny = document.getElementById('danny');
+            
+            if(dialog.style.display === 'block') {
+                dialog.style.display = 'none';
+                danny.classList.remove('dialog-open');
+            } else {
+                dialog.style.display = 'block';
+                danny.classList.add('dialog-open');
+            }
+        }
+
+        function hideDialog() {
+            const dialog = document.getElementById('dialog-box');
+            const danny = document.getElementById('danny');
+            dialog.style.display = 'none';
+            danny.classList.remove('dialog-open');
+        }
+
+        function transformDanny() {
+            const danny = document.getElementById('danny');
+            const aboutPage = document.getElementById('about-page');
+            hideDialog();
+            
+            danny.classList.add('danny-transition');
+            setTimeout(() => {
+                aboutPage.style.display = 'block';
+                document.getElementById('danny2').style.display = 'block';
+            }, 800);
+        }
+
+        function closeAboutPage() {
+            const danny = document.getElementById('danny');
+            const aboutPage = document.getElementById('about-page');
+            
+            aboutPage.style.display = 'none';
+            danny.style.cssText = '';
+            danny.classList.remove('danny-transition');
+            document.getElementById('danny2').style.display = 'none';
+            
+            setTimeout(() => {
+                danny.style.bottom = '-35px';
+                danny.style.transform = '';
+                danny.style.opacity = '1';
+                void danny.offsetHeight;
+            }, 50);
+        }
+
+        window.addEventListener('click', function(event) {
+            const about = document.getElementById('about-page');
+            const dannyImg = document.getElementById('danny');
+            
+            if (!about.contains(event.target) && event.target !== dannyImg) {
+                about.style.display = 'none';
+            }
+        });
+
+        setTimeout(() => {
+            document.getElementById('danny').style.bottom = '-35px';
+        }, 100);
+    </script>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +226,13 @@
     <title>My Socials!</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -18,7 +245,7 @@
             flex-direction: column;
             height: 100vh;
             text-align: center;
-            cursor: none;
+            cursor: none !important;
         }
 
         #video-background {
@@ -40,7 +267,7 @@
             background: #9400D3;
             border-radius: 50%;
             pointer-events: none;
-            z-index: 1000;
+            z-index: 9999;
             box-shadow: 0 0 8px #9400D3, 0 0 16px #9400D3;
         }
 
@@ -53,6 +280,7 @@
             pointer-events: none;
             animation: cursorParticleFade 0.6s forwards;
             box-shadow: 0 0 8px #9400D3, 0 0 12px #9400D3;
+            z-index: 9999;
         }
 
         @keyframes cursorParticleFade {
@@ -178,7 +406,7 @@
             transition: transform 0.3s, filter 0.3s, opacity 0.3s;
             z-index: 5;
             pointer-events: none;
-            cursor: none;
+            cursor: none !important;
         }
 
         .social-link img {
@@ -232,7 +460,7 @@
             left: 10px;
             width: 50px;
             height: 50px;
-            cursor: none;
+            cursor: none !important;
             background: url('images/play-icon.png') no-repeat center center;
             background-size: contain;
             transition: transform 0.3s;
@@ -252,7 +480,7 @@
             width: 100px;
             opacity: 0;
             transition: opacity 0.3s ease;
-            cursor: none;
+            cursor: none !important;
             z-index: 10;
             accent-color: #9400D3;
             background: rgba(0, 0, 0, 0.7);
@@ -287,7 +515,7 @@
             height: 16px;
             background: #9400D3;
             border-radius: 50%;
-            cursor: none;
+            cursor: none !important;
             margin-top: -4px;
             box-shadow: 0 0 5px #9400D3;
         }
@@ -297,7 +525,7 @@
             height: 16px;
             background: #9400D3;
             border-radius: 50%;
-            cursor: none;
+            cursor: none !important;
             box-shadow: 0 0 5px #9400D3;
         }
 
