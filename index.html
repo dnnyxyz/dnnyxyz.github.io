@@ -607,6 +607,10 @@
         let isDragging = false;
         let startAngle = 0;
         let currentAngle = 0;
+        let velocity = 0;
+        let lastTime = 0;
+        const friction = 0.99;
+        const sensitivity = 0.9; 
 
         function arrangeIcons(angleOffset = 0) {
             const angleIncrement = (2 * Math.PI) / socialIcons.length;
@@ -635,8 +639,16 @@
                     e.clientY - window.innerHeight / 2,
                     e.clientX - window.innerWidth / 2
                 );
-                currentAngle = angle - startAngle;
+                const deltaAngle = angle - startAngle;
+                currentAngle += deltaAngle * sensitivity; // Apply lower sensitivity
                 arrangeIcons(currentAngle);
+
+                const now = Date.now();
+                const deltaTime = now - lastTime;
+                if (deltaTime > 0) {
+                    velocity = (deltaAngle / deltaTime) * sensitivity; // Scale velocity with sensitivity
+                }
+                lastTime = now;
 
                 if (Math.random() < 0.5) {
                     socialIcons.forEach((icon) => {
@@ -658,6 +670,17 @@
         window.addEventListener('mouseup', () => {
             isDragging = false;
         });
+
+        function animate() {
+            if (!isDragging) {
+                velocity *= friction; // Apply friction
+                currentAngle += velocity;
+                arrangeIcons(currentAngle);
+            }
+            requestAnimationFrame(animate);
+        }
+
+        animate();
 
         document.addEventListener('mousemove', (e) => {
             customCursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
