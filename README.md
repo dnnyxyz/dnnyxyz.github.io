@@ -1,1 +1,1 @@
-This is for my website, I don't care what you do with the source. Have a good day!
+This is for my website, I'll customize it to your need for $5.
