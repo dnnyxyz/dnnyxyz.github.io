@@ -1,1 +1,1 @@
-Diddy fricking profile page nigger
+Diddy fricking profile page
