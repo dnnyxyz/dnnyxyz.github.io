@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANNY | ESRO Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background: #000;
+            min-height: 100vh;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+            font-weight: 300;
+        }
+        
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        
+        .right-banner {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+        
+        .banner-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35px;
+            width: 100%;
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(100, 100, 100, 0.3);
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .audio-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+        }
+        
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(100, 100, 100, 0.3);
+            border-radius: 10px;
+            outline: none;
+            transform: rotate(-90deg);
+            margin: 40px 0;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            transition: all 0.2s ease;
+        }
+        
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #ddd;
+        }
+        
+        .audio-btn {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .profile-banner {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            overflow: hidden;
+        }
+        
+        .profile-banner img {
+            width: 120%;
+            height: 120%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            z-index: 1000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        #splash.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+        
+        .enter-text {
+            font-size: 3.5rem;
+            color: #fff;
+            letter-spacing: 8px;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            animation: pulse 3s infinite;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .enter-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .enter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes pulse {
+            0% { 
+                opacity: 0.6; 
+                transform: scale(0.98); 
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.02); 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            100% { 
+                opacity: 0.6; 
+                transform: scale(0.98); 
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        #main-content.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+        
+        .page.next {
+            transform: translateY(50px);
+        }
+        
+        .page.prev {
+            transform: translateY(-50px);
+        }
+        
+        .page-content {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .profile-pic {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin-bottom: 30px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+        
+        .name-title {
+            font-size: 3.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #fff;
+            position: relative;
+        }
+        
+        .name-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            border-radius: 3px;
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-top: 30px;
+            letter-spacing: 0.5px;
+        }
+        
+        
+        .bio-container {
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            font-size: 2.3rem;
+            margin-bottom: 35px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            color: #fff;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            border-radius: 3px;
+        }
+        
+        .bio-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: left;
+        }
+        
+        
+        .esro-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 35px;
+        }
+        
+        .esro-logo-large {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: contain;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+            background: rgba(20, 20, 20, 0.5);
+        }
+        
+        .esro-content {
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .esro-title {
+            font-size: 2.3rem;
+            margin-bottom: 25px;
+            color: #fff;
+            position: relative;
+        }
+        
+        .esro-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            border-radius: 3px;
+        }
+        
+        
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+            max-width: 600px;
+        }
+        
+        .social-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(20, 20, 20, 0.5);
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+        
+        .social-item:hover {
+            transform: translateY(-8px);
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: rgba(30, 30, 30, 0.7);
+            font-size: 1.8rem;
+            color: #fff;
+        }
+        
+        .social-name {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+        
+        .social-icon img {
+            width: 40px;
+            height: 40px;
+            filter: invert(1);
+        }
+        
+        
+        @media (max-width: 900px) {
+            .social-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .right-banner {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .name-title {
+                font-size: 2.8rem;
+            }
+            
+            .enter-text {
+                font-size: 2.5rem;
+            }
+            
+            .bio-container, .esro-content {
+                padding: 25px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .section-title, .esro-title {
+                font-size: 2rem;
+            }
+            
+            .name-title {
+                font-size: 2.3rem;
+            }
+            
+            .enter-text {
+                font-size: 1.8rem;
+                letter-spacing: 4px;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    
+    <div class="right-banner">
+        <div class="banner-content">
+            <div class="profile-banner">
+                <img src="images/profile-logo.png" alt="Profile">
+            </div>
+            
+            <div class="nav-links">
+                <a href="#home" class="nav-link active" data-target="home" title="Home">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="#about" class="nav-link" data-target="about" title="About">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="#esro" class="nav-link" data-target="esro" title="ESRO">
+                    <i class="fas fa-crown"></i>
+                </a>
+                <a href="#contact" class="nav-link" data-target="contact" title="Contact">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            
+            <div class="audio-controls">
+                <div class="audio-btn" id="audioToggle">
+                    <i class="fas fa-play"></i>
+                </div>
+                <input type="range" min="0" max="100" value="70" class="volume-slider" id="volumeSlider">
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="splash">
+        <div class="enter-text">Danny<br>ESRO.CC</div>
+        <button class="enter-btn">Enter Portfolio</button>
+    </div>
+    
+    
+    <div id="main-content">
+        
+        <div id="home" class="page active">
+            <div class="page-content">
+                <div class="profile-container">
+                    <img src="images/profile-logo.png" alt="Profile" class="profile-pic">
+                    <h1 class="name-title">Danny</h1>
+                    <p class="tagline">Digital sigma & co-founder of ESRO CHEATS. Offering premium solutions in the cheating industry with a focus on innovation and user experience.</p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="about" class="page">
+            <div class="page-content">
+                <h2 class="section-title">ABOUT ME</h2>
+                <div class="bio-container">
+                    <p class="bio-text">I'm a passionate cheater who practically started cheating as soon as they came out of the worm.</p>
+                    <p class="bio-text">My cheating journey began with roblox and at first I thought I was a god... Until I realized most of the scripts we're client-sided.</p>
+                    <p class="bio-text">Now I can't go without cheating on every game I play, It's a drug, but it's probaly the best way too have fun with little too no downsides.</p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="esro" class="page">
+            <div class="page-content">
+                <div class="esro-container">
+                    <img src="images/esro-logo.png" alt="ESRO Logo" class="esro-logo-large">
+                    <div class="esro-content">
+                        <h2 class="esro-title">ESRO CHEATS</h2>
+                        <p class="bio-text">ESRO Cheats is a premium software provider that has just revised there entire website from the ground up after nearly giving up. We now have decided too strive for user experience since 2024.</p>
+                        <p class="bio-text">We don't sell junk products, nor do we scam *wink* *wink*. Although we haven't been around for the longest I can ensure we blow the competitors out of proportion in every way imaginable.</p>
+                        <p class="bio-text">At ESRO, we believe the brain chemical dopamine should be the most prioritized that's why you should buy from us; so you can be happy!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="contact" class="page">
+            <div class="page-content">
+                <h2 class="section-title">CONNECT WITH ME</h2>
+                <div class="social-grid">
+                    <a href="https://discord.com/users/964997315368722432" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <span class="social-name">Discord</span>
+                    </a>
+                    <a href="https://github.com/dnnyxyz" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <span class="social-name">GitHub</span>
+                    </a>
+                    <a href="https://t.me/Fiucox" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <span class="social-name">Telegram</span>
+                    </a>
+                    <a href="https://instagram.com/tridnny/" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <span class="social-name">Instagram</span>
+                    </a>
+                    <a href="https://steamcommunity.com/profiles/76561198844655650/" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-steam"></i>
+                        </div>
+                        <span class="social-name">Steam</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@dnny.xyz" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <span class="social-name">TikTok</span>
+                    </a>
+                    <a href="https://open.spotify.com/user/3153v4hhkofges7p3ogapdqlahwy" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <i class="fab fa-spotify"></i>
+                        </div>
+                        <span class="social-name">Spotify</span>
+                    </a>
+                    <a href="https://roblox.com/users/4340304667/profile" class="social-item" target="_blank">
+                        <div class="social-icon">
+                            <img src="images/roblox-logo.png" alt="Roblox">
+                        </div>
+                        <span class="social-name">Roblox</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <audio id="bg-audio" loop>
+        <source src="audio.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 150,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.5
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        
+        const audio = document.getElementById('bg-audio');
+        const audioToggle = document.getElementById('audioToggle');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        
+        audio.volume = volumeSlider.value / 100;
+        
+        
+        audioToggle.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+                audioToggle.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audio.pause();
+                audioToggle.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+        
+        
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value / 100;
+        });
+        
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const splash = document.getElementById('splash');
+            const enterBtn = document.querySelector('.enter-btn');
+            const mainContent = document.getElementById('main-content');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            
+            
+            enterBtn.addEventListener('click', function() {
+                splash.classList.add('hidden');
+                setTimeout(() => {
+                    mainContent.classList.add('active');
+                    
+                    audio.play().catch(e => console.log('Autoplay prevented:', e));
+                    audioToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                }, 500);
+            });
+            
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetPage = this.getAttribute('data-target');
+                    
+                   
+                    navLinks.forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    
+                    let currentPage = null;
+                    pages.forEach(page => {
+                        if (page.classList.contains('active')) {
+                            currentPage = page;
+                        }
+                    });
+                    
+                    
+                    const targetElement = document.getElementById(targetPage);
+                    
+                    
+                    const currentIndex = Array.from(pages).indexOf(currentPage);
+                    const targetIndex = Array.from(pages).indexOf(targetElement);
+                    const direction = targetIndex > currentIndex ? 'next' : 'prev';
+                    
+                    
+                    currentPage.classList.remove('active');
+                    currentPage.classList.add(direction);
+                    
+                    targetElement.classList.add('active');
+                    targetElement.classList.add(direction);
+                    
+                    
+                    setTimeout(() => {
+                        currentPage.classList.remove('next', 'prev');
+                        targetElement.classList.remove('next', 'prev');
+                    }, 800);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
